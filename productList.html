@@ -1,597 +1,555 @@
         <style>
-  .filter-buttons {
-    display: flex;
-    margin-bottom: 20px;
-    justify-content: end;
-  }
+          .filter-buttons {
+            display: flex;
+            margin-bottom: 20px;
+            justify-content: end;
+          }
 
-  .list-view-button,
-  .grid-view-button {
-    padding: 5px;
-    font-size: 30px;
-    cursor: pointer;
-  }
+          .list-view-button,
+          .grid-view-button {
+            padding: 5px;
+            font-size: 30px;
+            cursor: pointer;
+          }
 
-  .list-view-button {
-    margin-right: 10px;
-  }
+          .list-view-button {
+            margin-right: 10px;
+          }
 
-  .list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
+          .list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+          }
 
-  .box {
-    color: white;
-    border-radius: 3px;
-    margin-bottom: 10px;
-    transition: 0.3s;
-  }
-  #filter {
-    transition: 0.3s;
-  }
-  .list.list-view-filter {
-    flex-direction: column;
-  }
+          .box {
+            color: white;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            transition: 0.3s;
+          }
 
-  .list.list-view-filter .box {
-    max-width: 100%;
-  }
+          #filter {
+            transition: 0.3s;
+          }
 
-  .list.grid-view-filter {
-    flex-flow: row wrap;
-  }
-  .list.list-view-filter .product {
-    display: flex;
-    width: 100%;
-  }
+          .list.list-view-filter {
+            flex-direction: column;
+          }
 
-  .list.list-view-filter .pro-info {
-    align-self: center;
-    width: 40%;
-  }
+          .list.list-view-filter .box {
+            max-width: 100%;
+          }
 
-  .list.list-view-filter .price-add,
-  .list.list-view-filter .pro-img {
-    width: 30%;
-    text-align: center;
-    align-self: center;
-  }
-  .list.grid-view-filter .box {
-    text-align: center;
-  }
+          .list.grid-view-filter {
+            flex-flow: row wrap;
+          }
 
-  /* The container */
-  .check-container {
-    display: block;
-    position: relative;
-    padding-right: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #1a2756;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  .check-container:hover {
-    color: #ff7d82;
-  }
-  /* Hide the browser's default checkbox */
-  .check-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
+          .list.list-view-filter .product {
+            display: flex;
+            width: 100%;
+          }
 
-  /* Create a custom checkbox */
-  .checkmark {
-    position: absolute;
-    top: 0;
-    right: 0;
-    border-radius: 50%;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
-  }
+          .list.list-view-filter .pro-info {
+            align-self: center;
+            width: 40%;
+          }
 
-  /* On mouse-over, add a grey background color */
-  .check-container:hover input ~ .checkmark {
-    background-color: #ccc;
-  }
+          .list.list-view-filter .price-add,
+          .list.list-view-filter .pro-img {
+            width: 30%;
+            text-align: center;
+            align-self: center;
+          }
 
-  /* When the checkbox is checked, add a blue background */
-  .check-container input:checked ~ .checkmark {
-    background-color: #00badb;
-  }
+          .list.grid-view-filter .box {
+            text-align: center;
+          }
 
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
+          .box {
+            transition: .4s;
+          }
 
-  /* Show the checkmark when checked */
-  .check-container input:checked ~ .checkmark:after {
-    display: block;
-  }
+          /* The container */
+          .check-container {
+            display: block;
+            position: relative;
+            padding-right: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #1a2756;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+          }
 
-  /* Style the checkmark/indicator */
-  .check-container .checkmark:after {
-    left: 10px;
-    top: 7px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-  }
-  .filtter {
-    padding: 10px 20px;
-    border-radius: 20px;
-    background: #fff;
-    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
-  }
-  .filters {
-    border-left: 1px solid #e4ebf2;
-  }
-  @media only screen and (max-width: 991px) {
-    .filters {
-      border: none;
-    }
-  }
-</style>
+          .check-container:hover {
+            color: #ff7d82;
+          }
 
-{{#Category.name}}
-<div id="home-slider-section" class="pt-lg-7">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 px-0 px-lg-3">
-        {{#Category.image_full_path}}
-        <div
-          class="py-22 px-14 bg-placeholder text-center text-lg-left bg-cover bg-center"
-          style="background-image: url({{Category.image_full_path}})"
-        >
-          <h1 class="text-dark fs-30 fs-lg-40">{{Category.name}}</h1>
-        </div>
-        {{/Category.image_full_path}} {{^Category.image_full_path}}
-        <div class="py-22 px-14 bg-placeholder text-center text-lg-left">
-          <h1 class="text-dark fs-30 fs-lg-40">{{Category.name}}</h1>
-        </div>
-        {{/Category.image_full_path}}
-      </div>
-    </div>
-  </div>
-  {{#categories_count}}
-  <div id="home-categories-section" class="py-7">
-    <div class="container">
-      <div class="row">
-        {{#categories}}
-        <div class="col-lg-2 col-sm-4 col-6">
-          <a
-            href="/contents/products_list?cat_id={{id}}"
-            class="text-decoration-none text-black text-hover-primary"
-          >
-            <div class="text-center mb-6 mb-lg-0">
-              {{#image_full_path}}
-              <img
-                src="{{image_full_path}}"
-                width="168"
-                height="125"
-                alt="Sandwiches"
-                class="img-fluid w-100 h-125px mx-auto img-cover mb-3 category-img-sm"
-              />
-              {{/image_full_path}} {{^image_full_path}}
-              <img
-                src="https://cdn.daftra.com/templates/shop_1/img/category_thumb.svg"
-                width="168"
-                height="125"
-                alt="Sandwiches"
-                class="img-fluid h-125px w-100 mx-auto img-cover mb-3 category-img-sm"
-              />
-              {{/image_full_path}}
-              <h6 class="fs-18 font-weight-bold mb-2">{{name}}</h6>
-            </div>
-          </a>
-        </div>
-        {{/categories}}
-      </div>
-    </div>
-  </div>
-  {{/categories_count}}
-</div>
-{{/Category.name}} {{#query}}
-<div id="home-slider-section" class="pt-lg-7">
-  <div class="container">
-    <div class="row">
-      <div class="py-22 px-14 text-center">
-        <h1 class="text-dark fs-30 fs-lg-40">{{query}}</h1>
-      </div>
-    </div>
-  </div>
-</div>
-{{/query}}
+          /* Hide the browser's default checkbox */
+          .check-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+          }
 
-<div id="products-section" class="pb-4">
-  <div class="container">
-    <div class="px-4 py-6">
-      <a class="text-color fs-16 text-decoration-none" href="/home"
-        >الصفحة الرئيسية
-      </a>
-      <span class="px-1 fs-12"><i class="fas fa-chevron-right"></i></span
-      ><a
-        class="text-color fs-16 text-decoration-none"
-        href="contents/products_list"
-        >كل المنتجات
-      </a>
-    </div>
-    <!-- ====================== filter ======================================= -->
+          /* Create a custom checkbox */
+          .checkmark {
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-radius: 50%;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+          }
 
-    <div class="row">
-      <div class="col-lg-2 col-12 filters">
-        <div id="filter" class="d-none d-lg-block">
-          <div
-            style="height: 3.5cm"
-            class="pt-6 fs-18 font-weight-medium px-4 d-flex"
-          >
-            <div style="width: 94%">خيارات تنفيذ البيع</div>
-            <div
-              style="width: 6%; text-align: end"
-              class="d-flex d-lg-none"
-              id="exit"
-            >
-              <i class="fas fa-times-circle"></i>
+          /* On mouse-over, add a grey background color */
+          .check-container:hover input~.checkmark {
+            background-color: #ccc;
+          }
+
+          /* When the checkbox is checked, add a blue background */
+          .check-container input:checked~.checkmark {
+            background-color: #00badb;
+          }
+
+          /* Create the checkmark/indicator (hidden when not checked) */
+          .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+          }
+
+          /* Show the checkmark when checked */
+          .check-container input:checked~.checkmark:after {
+            display: block;
+          }
+
+          /* Style the checkmark/indicator */
+          .check-container .checkmark:after {
+            left: 10px;
+            top: 7px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+          }
+
+          .filtter {
+            padding: 10px 20px;
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+          }
+
+          .filters {
+            border-left: 1px solid #e4ebf2;
+          }
+
+          @media only screen and (max-width: 991px) {
+            .filters {
+              border: none;
+            }
+          }
+
+          .filter__out {
+            background-color: #ff7d82;
+            width: 0;
+            margin: -1em
+          }
+        </style>
+
+        {{#Category.name}}
+        <div id="home-slider-section" class="pt-lg-7">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12 px-0 px-lg-3">
+                {{#Category.image_full_path}}
+                <div class="py-22 px-14 bg-placeholder text-center text-lg-left bg-cover bg-center"
+                  style="background-image: url({{Category.image_full_path}})">
+                  <h1 class="text-dark fs-30 fs-lg-40">{{Category.name}}</h1>
+                </div>
+                {{/Category.image_full_path}} {{^Category.image_full_path}}
+                <div class="py-22 px-14 bg-placeholder text-center text-lg-left">
+                  <h1 class="text-dark fs-30 fs-lg-40">{{Category.name}}</h1>
+                </div>
+                {{/Category.image_full_path}}
+              </div>
             </div>
           </div>
-          <div class="filtter mb-6">
-            <h2 class="fs-24 font-weight-medium text-primary py-2 px-2">
-              <span class="b-secondary"> القسم</span>
-            </h2>
-            <label class="check-container"
-              >مكييفات
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-            <label class="check-container"
-              >مراوح
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-            <label class="check-container"
-              >مكييفات صحراوية
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-          </div>
-          <div class="filtter mb-6">
-            <h2 class="fs-24 font-weight-medium text-primary py-2 px-2">
-              <span class="b-secondary"> السعر</span>
-            </h2>
-            <label class="check-container"
-              >0 ريال - 1000 ريال
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-            <label class="check-container"
-              >1000 ريال - 5000ريال
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-            <label class="check-container"
-              >5000 ريال - 10000 ريال
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-            <label class="check-container"
-              >10000 ريال - 20000 ريال
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-          </div>
-          <div class="filtter mb-6">
-            <h2 class="fs-24 font-weight-medium text-primary py-2 px-2">
-              <span class="b-secondary"> العلامة التجارية</span>
-            </h2>
-            <label class="check-container"
-              >سامسونج
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-            <label class="check-container"
-              >إل جي
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-
-            <label class="check-container"
-              >كارير
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-            <label class="check-container"
-              >توشيبا
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-            <label class="check-container"
-              >جريي
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-            <label class="check-container"
-              >ويستنج هاوس
-              <input type="checkbox" />
-              <span class="checkmark"></span>
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-10 col-12 px-0">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="pt-4 px-4">
+          {{#categories_count}}
+          <div id="home-categories-section" class="py-7">
+            <div class="container">
               <div class="row">
-                <div class="col col-lg-5 col-6">
-                  <div class="text-left">
-                    <div
-                      class="d-inline-flex flex-column flex-lg-row align-items-lg-center text-left w-100"
-                    >
-                      <span
-                        class="fs-16 d-block d-lg-inline-block font-weight-medium text-primary mr-2"
-                      >
-                        ترتيب حسب:
-                      </span>
-                      <div class="sort-filter">
-                        <select class="form-control mr-1 d-inline-block w-auto">
-                          {{#sortFields}}
-                          <option value="{{field_name}}">{{title}}</option>
-                          {{/sortFields}}
-                        </select>
-                        <button
-                          type="button"
-                          class="fas fa-arrow-down d-inline-flex align-items-center justify-content-center w-38px h-38px btn p-0 btn-placeholder d-inline-block sort-dir-desc"
-                          data-toggle="tooltip"
-                          data-placement="bottom"
-                          title="DESC"
-                        ></button>
-                        <button
-                          type="button"
-                          class="fas fa-arrow-up d-inline-flex align-items-center justify-content-center w-38px h-38px btn p-0 btn-placeholder d-inline-block sort-dir-asc"
-                          data-toggle="tooltip"
-                          data-placement="bottom"
-                          title="ASC"
-                        ></button>
+                {{#categories}}
+                <div class="col-lg-2 col-sm-4 col-6">
+                  <a href="/contents/products_list?cat_id={{id}}"
+                    class="text-decoration-none text-black text-hover-primary">
+                    <div class="text-center mb-6 mb-lg-0">
+                      {{#image_full_path}}
+                      <img src="{{image_full_path}}" width="168" height="125" alt="Sandwiches"
+                        class="img-fluid w-100 h-125px mx-auto img-cover mb-3 category-img-sm" />
+                      {{/image_full_path}} {{^image_full_path}}
+                      <img src="https://cdn.daftra.com/templates/shop_1/img/category_thumb.svg" width="168" height="125"
+                        alt="Sandwiches" class="img-fluid h-125px w-100 mx-auto img-cover mb-3 category-img-sm" />
+                      {{/image_full_path}}
+                      <h6 class="fs-18 font-weight-bold mb-2">{{name}}</h6>
+                    </div>
+                  </a>
+                </div>
+                {{/categories}}
+              </div>
+            </div>
+          </div>
+          {{/categories_count}}
+        </div>
+        {{/Category.name}} {{#query}}
+        <div id="home-slider-section" class="pt-lg-7">
+          <div class="container">
+            <div class="row">
+              <div class="py-22 px-14 text-center">
+                <h1 class="text-dark fs-30 fs-lg-40">{{query}}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/query}}
+
+        <div id="products-section" class="pb-4">
+          <div class="container">
+            <div class="px-4 py-6">
+              <a class="text-color fs-16 text-decoration-none" href="/home">الصفحة الرئيسية
+              </a>
+              <span class="px-1 fs-12"><i class="fas fa-chevron-right"></i></span><a
+                class="text-color fs-16 text-decoration-none" href="contents/products_list">كل المنتجات
+              </a>
+            </div>
+            <!-- ====================== filter ======================================= -->
+
+            <div class="row">
+              <div class="col-lg-2 col-12 filters">
+                <div id="filter" class="d-none d-lg-block">
+                  <div style="height: 3.5cm" class="pt-6 fs-18 font-weight-medium px-4 d-flex">
+                    <div style="width: 94%">خيارات تنفيذ البيع</div>
+                    <div style="width: 6%; text-align: end" class="d-flex d-lg-none" id="exit">
+                      <i class="fas fa-times-circle"></i>
+                    </div>
+                  </div>
+                  <div class="filtter mb-6">
+                    <h2 class="fs-24 font-weight-medium text-primary py-2 px-2">
+                      <span class="b-secondary"> القسم</span>
+                    </h2>
+                    <label class="check-container">مكييفات
+                      <input type="checkbox" value="مكييفات" />
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">مراوح
+                      <input type="checkbox" value="مراوح" />
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">مكييفات صحراوية
+                      <input type="checkbox" value="مكييفات صحراوية" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <div class="filtter mb-6">
+                    <h2 class="fs-24 font-weight-medium text-primary py-2 px-2">
+                      <span class="b-secondary"> السعر</span>
+                    </h2>
+                    <label class="check-container">0 ريال - 1000 ريال
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">1000 ريال - 5000ريال
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">5000 ريال - 10000 ريال
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">10000 ريال - 20000 ريال
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <div class="filtter mb-6">
+                    <h2 class="fs-24 font-weight-medium text-primary py-2 px-2">
+                      <span class="b-secondary"> العلامة التجارية</span>
+                    </h2>
+                    <label class="check-container">سامسونج
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">إل جي
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                    </label>
+
+                    <label class="check-container">كارير
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">توشيبا
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">جريي
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="check-container">ويستنج هاوس
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-10 col-12 px-0">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="pt-4 px-4">
+                      <div class="row">
+                        <div class="col col-lg-5 col-6">
+                          <div class="text-left">
+                            <div class="d-inline-flex flex-column flex-lg-row align-items-lg-center text-left w-100">
+                              <span class="fs-16 d-block d-lg-inline-block font-weight-medium text-primary mr-2">
+                                ترتيب حسب:
+                              </span>
+                              <div class="sort-filter">
+                                <select class="form-control mr-1 d-inline-block w-auto">
+                                  {{#sortFields}}
+                                  <option value="{{field_name}}">{{title}}</option>
+                                  {{/sortFields}}
+                                </select>
+                                <button type="button"
+                                  class="fas fa-arrow-down d-inline-flex align-items-center justify-content-center w-38px h-38px btn p-0 btn-placeholder d-inline-block sort-dir-desc"
+                                  data-toggle="tooltip" data-placement="bottom" title="DESC"></button>
+                                <button type="button"
+                                  class="fas fa-arrow-up d-inline-flex align-items-center justify-content-center w-38px h-38px btn p-0 btn-placeholder d-inline-block sort-dir-asc"
+                                  data-toggle="tooltip" data-placement="bottom" title="ASC"></button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col flex-grow-0 col-lg-4 col-4">
+                          <div class="text-right">
+                            <div class="d-inline-flex flex-column flex-lg-row align-items-lg-center text-left">
+                              <span class="fs-16 d-block d-lg-inline-block font-weight-medium text-primary mr-2">
+                                ظهور:
+                              </span>
+                              <select id="" class="form-control show-limit">
+                                {{#limits}}
+                                <option value="{{text}}" {{#active}} selected="selected">
+                                  {{/active}} >{{text}}
+                                </option>
+                                {{/limits}}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col col-lg-3 col-2">
+                          <div class="d-block d-lg-none fs-18 p-4">
+                            <a href="#" class="trigger">
+                              <i class="fas fa-filter"></i></a>
+                          </div>
+                          <div class="filter-buttons d-none d-lg-flex">
+                            <div class="list-view-button">
+                              <i class="fa fa-bars" aria-hidden="true"></i>
+                            </div>
+                            <div class="grid-view-button">
+                              <i class="fa fa-th-large" aria-hidden="true"></i>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col flex-grow-0 col-lg-4 col-4">
-                  <div class="text-right">
-                    <div
-                      class="d-inline-flex flex-column flex-lg-row align-items-lg-center text-left"
-                    >
-                      <span
-                        class="fs-16 d-block d-lg-inline-block font-weight-medium text-primary mr-2"
-                      >
-                        ظهور:
-                      </span>
-                      <select id="" class="form-control show-limit">
-                        {{#limits}}
-                        <option
-                          value="{{text}}"
-                          {{#active}}
-                          selected="selected"
-                        >
-                          {{/active}} >{{text}}
-                        </option>
-                        {{/limits}}
-                      </select>
+                <div class="row">
+                  <div class="col-lg-12 px-0 px-lg-3">
+                    <div class=""></div>
+                    <div class="border-top border-placeholder mx-4 pb-4"></div>
+                  </div>
+                </div>
+
+                <div id="list" class="row list grid-view-filter">
+                  {{#products}}
+                  <!-- ======================== card ======================================= -->
+                  <div class="col-lg-3 col-sm-6 py-3 px-4 box">
+                    <div class="item hover bg-white p-2">
+                      <div class="h-100 mb-6 mb-lg-0 product px-5 px-lg-0" data-product-id="{{id}}"
+                        data-image="{{file_full_path}}" data-price="{{final_price_number}}" data-name="{{name}}">
+                        <div class="pro-img">
+                          <a href="/contents/product_view/{{id}}"
+                            class="text-decoration-none text-primary text-hover-black">
+                            <img src="{{file_full_path}}" alt=""
+                              class="product-img-sm img-fluid h-180px w-100 mx-auto img-cover" />
+                          </a>
+                        </div>
+                        <div class="pro-info">
+                          <a href="/contents/product_view/{{id}}"
+                            class="text-decoration-none text-primary text-hover-black">
+                            <h6 class="fs-16 font-weight-medium text-primary name m-0 p-1"
+                              style="min-height: 48px; text-align: right">
+                              {{ name }}<span class="font-weight-medium fs-16 text-body ml-2 d-none id">{{id}}</span>
+                            </h6>
+                          </a>
+                          <div class="newdiv"></div>
+                          <p class="fs-16 fs-md-14 fs-xl-16 font-weight-medium text-body m-0 p-1">
+                            {{description}}
+                          </p>
+                        </div>
+                        <div class="price-add">
+                          <div class="mb-3 font-weight-bold mt-auto px-1 price-no">
+                            {{#discount}}
+                            <span class="price fs-20">{{final_price}}</span>
+                            <del class="text-danger"><span
+                                class="text-alto font-weight-extrabold fs-14 mr-2 discount">{{unit_price}}</span></del>
+
+                            {{/discount}} {{^discount}}
+                            <span class="text-primary fs-20">{{final_price}}</span>
+                            {{/discount}}
+                          </div>
+                          <button data-name="sallamon"
+                            class="add-to-cart-btn btn btn-sm btn-primary text-uppercase font-weight-medium fs-16">
+                            <i class="fal fa-cart-plus mr-2"></i>Add to Cart
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {{/products}} {{^products_count}}
+                  <p>لا يوجد منتجات</p>
+                  {{/products_count}}
+                </div>
+                {{#products_count}}
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="text-center pt-8">
+                      <nav class="d-inline-flex mb-0 align-items-center">
+                        <span class="text-primary fs-16 mr-2 font-weight-medium d-none d-lg-inline-block">
+                          صفحة:
+                        </span>
+                        <ul class="pagination mb-0">
+                          {{#prevPage}}
+                          <li class="page-item">
+                            <a class="page-link bg-placeholder bg-hover-primary" href="{{prevPageLink}}"><i
+                                class="fa fas fa-arrow-left"></i></a>
+                          </li>
+                          {{/prevPage}} {{#pages}} {{#active}}
+                          <li class="page-item active">
+                            <a class="page-link" href="{{link}}"> {{page}} </a>
+                          </li>
+                          {{/active}} {{^active}}
+                          <li class="page-item">
+                            <a class="page-link" href="{{link}}"> {{page}} </a>
+                          </li>
+                          {{/active}} {{/pages}} {{#nextPage}}
+                          <li class="page-item">
+                            <a class="page-link bg-placeholder bg-hover-primary" href="{{nextPageLink}}"><i
+                                class="fas fa-arrow-right"></i></a>
+                          </li>
+                          {{/nextPage}}
+                        </ul>
+                      </nav>
                     </div>
                   </div>
                 </div>
-                <div class="col col-lg-3 col-2">
-                  <div class="d-block d-lg-none fs-18 p-4">
-                    <a href="#" class="trigger">
-                      <i class="fas fa-filter"></i
-                    ></a>
-                  </div>
-                  <div class="filter-buttons d-none d-lg-flex">
-                    <div class="list-view-button">
-                      <i class="fa fa-bars" aria-hidden="true"></i>
-                    </div>
-                    <div class="grid-view-button">
-                      <i class="fa fa-th-large" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                </div>
+                {{/products_count}}
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-12 px-0 px-lg-3">
-            <div class=""></div>
-            <div class="border-top border-placeholder mx-4 pb-4"></div>
-          </div>
-        </div>
+        <script>
+          const listViewButton = document.querySelector(".list-view-button");
+          const gridViewButton = document.querySelector(".grid-view-button");
+          const list = document.querySelector("#list");
+          const filter = document.querySelector("#filter");
+          const exit = document.querySelector("#exit");
 
-        <div id="list" class="row list grid-view-filter">
-          {{#products}}
-          <!-- ======================== card ======================================= -->
-          <div class="col-lg-3 col-sm-6 py-3 px-4 box">
-            <div class="item hover bg-white p-2">
-              <div
-                class="h-100 mb-6 mb-lg-0 product px-5 px-lg-0"
-                data-product-id="{{id}}"
-                data-image="{{file_full_path}}"
-                data-price="{{final_price_number}}"
-                data-name="{{name}}"
-              >
-                <div class="pro-img">
-                  <a
-                    href="/contents/product_view/{{id}}"
-                    class="text-decoration-none text-primary text-hover-black"
-                  >
-                    <img
-                      src="{{file_full_path}}"
-                      alt=""
-                      class="product-img-sm img-fluid h-180px w-100 mx-auto img-cover"
-                    />
-                  </a>
-                </div>
-                <div class="pro-info">
-                  <a
-                    href="/contents/product_view/{{id}}"
-                    class="text-decoration-none text-primary text-hover-black"
-                  >
-                    <h6
-                      class="fs-16 font-weight-medium text-primary name m-0 p-1"
-                      style="min-height: 48px; text-align: right"
-                    >
-                      {{ name }}<span
-                        class="font-weight-medium fs-16 text-body ml-2 d-none id"
-                        >{{id}}</span
-                      >
-                    </h6>
-                  </a>
-                  <div class="newdiv"></div>
-                  <p
-                    class="fs-16 fs-md-14 fs-xl-16 font-weight-medium text-body m-0 p-1"
-                  >
-                    {{description}}
-                  </p>
-                </div>
-                <div class="price-add">
-                  <div class="mb-3 font-weight-bold mt-auto px-1 price-no">
-                    {{#discount}}
-                    <span class="price fs-20">{{final_price}}</span>
-                    <del class="text-danger"
-                      ><span
-                        class="text-alto font-weight-extrabold fs-14 mr-2 discount"
-                        >{{unit_price}}</span
-                      ></del
-                    >
+          const displayNone = document.querySelector(".trigger");
 
-                    {{/discount}} {{^discount}}
-                    <span class="text-primary fs-20">{{final_price}}</span>
-                    {{/discount}}
-                  </div>
-                  <button
-                    data-name="sallamon"
-                    class="add-to-cart-btn btn btn-sm btn-primary text-uppercase font-weight-medium fs-16"
-                  >
-                    <i class="fal fa-cart-plus mr-2"></i>Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          {{/products}} {{^products_count}}
-          <p>لا يوجد منتجات</p>
-          {{/products_count}}
-        </div>
-        {{#products_count}}
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="text-center pt-8">
-              <nav class="d-inline-flex mb-0 align-items-center">
-                <span
-                  class="text-primary fs-16 mr-2 font-weight-medium d-none d-lg-inline-block"
-                >
-                  صفحة:
-                </span>
-                <ul class="pagination mb-0">
-                  {{#prevPage}}
-                  <li class="page-item">
-                    <a
-                      class="page-link bg-placeholder bg-hover-primary"
-                      href="{{prevPageLink}}"
-                      ><i class="fa fas fa-arrow-left"></i
-                    ></a>
-                  </li>
-                  {{/prevPage}} {{#pages}} {{#active}}
-                  <li class="page-item active">
-                    <a class="page-link" href="{{link}}"> {{page}} </a>
-                  </li>
-                  {{/active}} {{^active}}
-                  <li class="page-item">
-                    <a class="page-link" href="{{link}}"> {{page}} </a>
-                  </li>
-                  {{/active}} {{/pages}} {{#nextPage}}
-                  <li class="page-item">
-                    <a
-                      class="page-link bg-placeholder bg-hover-primary"
-                      href="{{nextPageLink}}"
-                      ><i class="fas fa-arrow-right"></i
-                    ></a>
-                  </li>
-                  {{/nextPage}}
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-        {{/products_count}}
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-  const listViewButton = document.querySelector(".list-view-button");
-  const gridViewButton = document.querySelector(".grid-view-button");
-  const list = document.querySelector("#list");
-  const filter = document.querySelector("#filter");
-  const exit = document.querySelector("#exit");
+          listViewButton.onclick = function () {
+            list.classList.remove("grid-view-filter");
+            list.classList.add("list-view-filter");
+          };
 
-  const displayNone = document.querySelector(".trigger");
+          gridViewButton.onclick = function () {
+            list.classList.remove("list-view-filter");
+            list.classList.add("grid-view-filter");
+          };
 
-  listViewButton.onclick = function () {
-    list.classList.remove("grid-view-filter");
-    list.classList.add("list-view-filter");
-  };
+          displayNone.onclick = function () {
+            filter.classList.remove("d-none");
+            filter.classList.add("d-block");
+          };
+          exit.onclick = function () {
+            filter.classList.remove("d-block");
+            filter.classList.add("d-none");
+          };
 
-  gridViewButton.onclick = function () {
-    list.classList.remove("list-view-filter");
-    list.classList.add("grid-view-filter");
-  };
 
-  displayNone.onclick = function () {
-    filter.classList.remove("d-none");
-    filter.classList.add("d-block");
-  };
-  exit.onclick = function () {
-    filter.classList.remove("d-block");
-    filter.classList.add("d-none");
-  };
+          function filterOnDepartment(selectedCats) {
+            console.log("filtering!")
+            allProducts.filter((i, v) => {
+              let productCat = $(v).data("cat")
+              $(v).removeClass("filter__out")
+              if (productCat != selectedCats) {
+                $(v).addClass("filter__out")
+                console.log("Horray!", $(v))
+              }
+            })
+          }
 
-  $(document).ready(function () {
-    let allProducts = $(".box");
-    $.each(allProducts, (i, val) => {
-      let productId = $(val).find(".product").data("product-id");
-      $.ajax({
-        url: "/api2/products/" + productId,
-        type: "GET",
-      }).done((data) => {
-        console.log(data);
-        let $thisProd = data.data.Product;
-        let brand = $thisProd.brand;
-        let cat = $thisProd.ProductCategory[0].name;
-        console.log(brand, cat);
-        $(val).attr("data-brand", brand);
-        $(val).attr("data-cat", cat);
-        //   let divdetails = `ID = ${productId} , Brand = ${brand} , CategoryName = ${catName}`;
+          function onChangeFilters() {
+            let DepartFilterBlock = $(".filtter:nth-child(2) :checkbox")
+            DepartFilterBlock.change(function () {
+              let $this = $(this);
 
-        //   console.log(divdetails);
-      });
-    });
-  });
-</script>
-    
+              console.log("Checked!!!")
+              let selectedCat = $this.val()
+              // if ($this.is(":checked")) {
+              //   console.log(selectedCat)
+              // }
+
+              filterOnDepartment(selectedCat)
+            })
+          }
+
+          $(document).ready(function () {
+
+            let allProducts = $(".box");
+
+            $.each(allProducts, (i, val) => {
+              let productId = $(val).find(".product").data("product-id");
+              $.ajax({
+                url: "/api2/products/" + productId,
+                type: "GET",
+              }).done((data) => {
+                console.log(data);
+                let $thisProd = data.data.Product;
+                let brand = $thisProd.brand;
+                let cat = $thisProd.ProductCategory[0].name;
+                console.log(brand, cat);
+                $(val).attr("data-brand", brand);
+                $(val).attr("data-cat", cat);
+                //   let divdetails = `ID = ${productId} , Brand = ${brand} , CategoryName = ${catName}`;
+
+                //   console.log(divdetails);
+              });
+            });
+
+            onChangeFilters()
+          });
+        </script>
