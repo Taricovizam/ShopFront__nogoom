@@ -23,13 +23,6 @@
             display: flex;
           }
 
-          .box {
-            color: white;
-            border-radius: 3px;
-            margin-bottom: 10px;
-            transition: 0.3s;
-          }
-
           #filter {
             transition: 0.3s;
           }
@@ -67,9 +60,6 @@
             text-align: center;
           }
 
-          .box {
-            transition: .4s;
-          }
 
           /* The container */
           .check-container {
@@ -163,9 +153,25 @@
           }
 
           .filter__out {
-            background-color: #ff7d82;
+            position: absolute;
+            margin: -2em;
             width: 0;
-            margin: -1em
+            height: 0;
+            opacity: 0;
+            top: 50%;
+          }
+
+          .item__hidden {
+            opacity: 0;
+          }
+
+          .box {
+            overflow: hidden;
+            color: white;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            transition: .4s;
+            width: 100%;
           }
         </style>
 
@@ -250,7 +256,7 @@
                       <span class="b-secondary"> القسم</span>
                     </h2>
                     <label class="check-container">مكييفات
-                      <input type="checkbox" value="مكييفات" />
+                      <input type="checkbox" value="أجهزة التكييف" />
                       <span class="checkmark"></span>
                     </label>
                     <label class="check-container">مراوح
@@ -258,7 +264,7 @@
                       <span class="checkmark"></span>
                     </label>
                     <label class="check-container">مكييفات صحراوية
-                      <input type="checkbox" value="مكييفات صحراوية" />
+                      <input type="checkbox" value="مكيف صحراوي" />
                       <span class="checkmark"></span>
                     </label>
                   </div>
@@ -500,36 +506,73 @@
           };
 
 
-          function filterOnDepartment(selectedCats) {
-            console.log("filtering!")
+          const checker = (arr, target) => target.every((i, v) => {
+            let productCat = $(v).data("cat")
+            if (arr.includes(v)) {
+
+            }
+          })
+
+          function filterOnDepartment(selectedCat, allProducts) {
+            allProducts.removeClass("filter__out")
             allProducts.filter((i, v) => {
               let productCat = $(v).data("cat")
-              $(v).removeClass("filter__out")
-              if (productCat != selectedCats) {
+              if (productCat != selectedCat) {
                 $(v).addClass("filter__out")
-                console.log("Horray!", $(v))
+                console.log("Filtered!", $(v))
               }
             })
           }
 
-          function onChangeFilters() {
+          function onChangeFilters(allProducts) {
             let DepartFilterBlock = $(".filtter:nth-child(2) :checkbox")
             DepartFilterBlock.change(function () {
               let $this = $(this);
-
-              console.log("Checked!!!")
               let selectedCat = $this.val()
-              // if ($this.is(":checked")) {
-              //   console.log(selectedCat)
-              // }
+              filterOnDepartment(selectedCat, allProducts)
+            })
+          }
+          // =============== Filter on Multi-Selection ====================
+          function filterOnDepartmentMulti(selectedCats, allProducts) {
+            // allProducts.removeClass("filter__out")
+            allProducts.removeClass("item__hidden")
 
-              filterOnDepartment(selectedCat)
+            let allfiltered = allProducts.map((i, v) => {
+              let productCat = $(v).data("cat")
+              // selectedCats.includes(productCat) ? $(v).css({
+              //   background: "green"
+              // }) : $(v).css({
+              //   background: "red"
+              // })
+              selectedCats.includes(productCat) ? console.log($(v)) : $(v).addClass("filter__out")
+
+
+            })
+          }
+
+          function onChangeFiltersMulti(allProducts) {
+            let selectedCats = []
+            let DepartFilterBlock = $(".filtter:nth-child(2) :checkbox")
+            DepartFilterBlock.change(function () {
+              allProducts.removeClass("filter__out")
+              let $this = $(this);
+              let selectedCat = $this.val()
+              if ($this.is(":checked")) {
+                selectedCats.push(selectedCat)
+                console.log(selectedCat, selectedCats)
+              } else {
+                selectedCats.indexOf(selectedCat) != -1 && selectedCats.splice(selectedCats.indexOf(selectedCat), 1)
+                console.log(selectedCat, selectedCats)
+
+              }
+              filterOnDepartmentMulti(selectedCats, allProducts)
             })
           }
 
           $(document).ready(function () {
 
             let allProducts = $(".box");
+            let allProductsItemDiv = $(".item");
 
             $.each(allProducts, (i, val) => {
               let productId = $(val).find(".product").data("product-id");
@@ -537,11 +580,11 @@
                 url: "/api2/products/" + productId,
                 type: "GET",
               }).done((data) => {
-                console.log(data);
+                // console.log(data);
                 let $thisProd = data.data.Product;
                 let brand = $thisProd.brand;
                 let cat = $thisProd.ProductCategory[0].name;
-                console.log(brand, cat);
+                // console.log(brand, cat);
                 $(val).attr("data-brand", brand);
                 $(val).attr("data-cat", cat);
                 //   let divdetails = `ID = ${productId} , Brand = ${brand} , CategoryName = ${catName}`;
@@ -550,6 +593,6 @@
               });
             });
 
-            onChangeFilters()
+            onChangeFiltersMulti(allProducts)
           });
         </script>
